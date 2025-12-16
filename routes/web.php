@@ -30,3 +30,10 @@ Route::post('/change-password', [AuthController::class, 'updatePassword'])
     ->name('password.update');
 
 
+Route::middleware('auth')->group(function () {
+
+    Route::get('/masters/{page}', function ($page) {
+        return "<h1>$page Master Page</h1>";
+    });
+
+});
