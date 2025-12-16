@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\ItemController;
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -30,10 +30,17 @@ Route::post('/change-password', [AuthController::class, 'updatePassword'])
     ->name('password.update');
 
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
 
-    Route::get('/masters/{page}', function ($page) {
-        return "<h1>$page Master Page</h1>";
-    });
+//     Route::get('/masters/{page}', function ($page) {
+//         return "<h1>$page Master Page</h1>";
+//     });
 
-});
+// });
+
+ Route::get('/masters/item', [ItemController::class, 'index'])
+        ->name('masters.item');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');

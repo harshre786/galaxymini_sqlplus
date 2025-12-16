@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Galaxy Dashboard</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         body {
@@ -14,7 +14,6 @@
             background: #f4f6f9;
         }
 
-        /* TOP BAR */
         .topbar {
             height: 50px;
             background: #3c8dbc;
@@ -23,142 +22,159 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
         }
-
-        /* SIDEBAR */
+        
         .sidebar {
     width: 230px;
     background: #222d32;
-    min-height: 100vh;
+    height: 100vh;        /* Full viewport height */
+    position: fixed;      /* So content stays fixed while scrolling main page */
+    overflow: hidden;     /* Hide overflow on sidebar container */
 }
 
-.sidebar a {
-    display: block;
-    padding: 12px 15px;
-    color: #b8c7ce;
-    text-decoration: none;
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;     /* Enable vertical scrolling */
+    padding-bottom: 20px; /* optional spacing at bottom */
 }
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            color: #b8c7ce;
+            text-decoration: none;
+        }
 
-.sidebar a:hover {
-    background: #1e282c;
-    color: #fff;
-}
+        .sidebar a:hover {
+            background: #1e282c;
+            color: #fff;
+        }
 
-.sidebar-dropdown > a {
-    cursor: pointer;
-}
+        .submenu {
+            display: none;
+            background: #1e282c;
+        }
 
-        /* CONTENT */
+        .submenu a {
+            padding-left: 35px;
+            font-size: 14px;
+        }
+
         .content {
-            margin-left: 220px;
+            margin-left: 230px;
             margin-top: 50px;
             padding: 20px;
         }
 
-        /* USER DROPDOWN */
+        .rotate {
+            transform: rotate(180deg);
+        }
+
         .user-menu {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: white;
-            color: #333;
-            width: 160px;
-            box-shadow: 0 4px 8px rgba(0,0,0,.2);
-        }
-
-        .dropdown a, .dropdown form button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background: none;
-            text-align: left;
-            cursor: pointer;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .dropdown a:hover, .dropdown button:hover {
-            background: #f1f1f1;
-        }
-
-        .sidebar-dropdown > a {
     position: relative;
+    cursor: pointer;
+    margin: 0 25px;
 }
 
-.pull-right {
-    float: right;
+.user-menu span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.submenu {
+.dropdown {
     display: none;
-    background: #1e282c;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.2);
+    border-radius: 3px;
+    z-index: 999;
 }
 
-.submenu a {
-    padding-left: 35px;
-    font-size: 14px;
+.dropdown a,
+.dropdown button {
+    padding: 10px;
+    display: block;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
 }
 
-.pull-right {
-    float: right;
+.dropdown a:hover,
+.dropdown button:hover {
+    background: #f1f1f1;
 }
 
-.rotate {
-    transform: rotate(180deg);
+
+    .sidebar-inner::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-inner::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+}
+
+.sidebar-inner::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
 
     </style>
 </head>
+
 <body>
 
 <!-- TOP BAR -->
 <div class="topbar">
     <strong>GalaxyMini</strong>
 
-    <div class="user-menu" onclick="toggleMenu()">
-        <i class="fa fa-user"></i>
-        {{ auth()->user()->username }}
+    <div class="user-menu" id="userMenu">
+    <span onclick="toggleUserMenu()">
+        <i class="fa fa-user"></i> admin
+        <i class="fa fa-angle-down"></i>
+    </span>
 
-        <div class="dropdown" id="userDropdown">
-            <a href="{{ route('password.change') }}">
-                <i class="fa fa-key"></i> Change Password
-            </a>
+    <div class="dropdown" id="userDropdown">
+        <a href="{{ route('password.change') }}">
+            <i class="fa fa-key"></i> Change Password
+        </a>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">
-                    <i class="fa fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
-        </div>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">
+                <i class="fa fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
     </div>
+</div>
+
 </div>
 
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-    <!-- Dashboard -->
-    <a href="/dashboard">
+    <div class="sidebar-inner">
+
+        <a href="{{ route('dashboard') }}">
         <i class="fa fa-dashboard"></i> Dashboard
     </a>
 
-    <!-- ================= MASTER ================= -->
-    <div class="sidebar-dropdown">
-
-        <a href="javascript:void(0)" onclick="submenu('masterMenu','masterArrow')">
-            <i class="fa fa-desktop"></i>
-            Master's
-            <i class="fa fa-angle-down pull-right" id="masterArrow"></i>
-        </a>
-
-        <div class="submenu" id="masterMenu">
-            <a href="/masters/license">License</a>
+    <!-- Masters -->
+    <a href="javascript:void(0)" onclick="submenu('masterMenu','masterArrow')">
+        Master's
+        <i class="fa fa-angle-down pull-right" id="masterArrow"></i>
+    </a>
+    <div class="submenu" id="masterMenu">
+         <a href="/masters/license">License</a>
             <a href="/masters/company">Company</a>
             <a href="/masters/company-users">Company Users</a>
             <a href="/masters/customers">Customers</a>
@@ -172,23 +188,17 @@
             <a href="/masters/unit">Unit</a>
             <a href="/masters/kotgroup">Kot Group</a>
             <a href="/masters/kotmessage">Kot Message</a>
-            <a href="/masters/item">Item</a>
+            <a href="{{ route('masters.item') }}">Item</a>
             <a href="/masters/faq-video">Faq Video</a>
-        </div>
-
     </div>
 
-    <!-- ================= REPORTS ================= -->
-    <div class="sidebar-dropdown">
-
-        <a href="javascript:void(0)" onclick="submenu('reportsMenu','reportsArrow')">
-            <i class="fa fa-file"></i>
-            Reports
-            <i class="fa fa-angle-down pull-right" id="reportsArrow"></i>
-        </a>
-
-        <div class="submenu" id="reportsMenu">
-            <a href="/reports/future-orders">Future Orders</a>
+    <!-- Reports -->
+    <a href="javascript:void(0)" onclick="submenu('reportsMenu','reportsArrow')">
+        Reports
+        <i class="fa fa-angle-down pull-right" id="reportsArrow"></i>
+    </a>
+    <div class="submenu" id="reportsMenu">
+        <a href="/reports/future-orders">Future Orders</a>
             <a href="/reports/billwise">Reports Billwise</a>
             <a href="/reports/itemwise">Reports Itemwise</a>
             <a href="/reports/datewise">Reports Datewise</a>
@@ -197,43 +207,43 @@
             <a href="/reports/department">Reports Department</a>
             <a href="/reports/customer-wise">Reports Customer Wise</a>
             <a href="/reports/total-summary">Reports Total Summary</a>
-        </div>
 
     </div>
-
-    <!-- ================= CLEAR DATA ================= -->
-    <a href="/clear-data">
-        <i class="fa fa-trash"></i> Clear Data
-    </a>
-
+        <a href="/clear-data">
+            <i class="fa fa-trash"></i> Clear Data
+        </a>
+        
+    </div>
+    
 </div>
 
-
-
-
-<!-- CONTENT
+<!-- ✅ MAIN CONTENT AREA -->
 <div class="content">
     @yield('content')
-</div> -->
+</div>
 
 <script>
-function toggleMenu() {
-    const dropdown = document.getElementById('userDropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
 function submenu(menuId, arrowId) {
     const menu = document.getElementById(menuId);
     const arrow = document.getElementById(arrowId);
 
-    if (menu.style.display === "block") {
-        menu.style.display = "none";
-        arrow.classList.remove('rotate');
-    } else {
-        menu.style.display = "block";
-        arrow.classList.add('rotate');
-    }
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+    arrow.classList.toggle('rotate');
 }
+
+function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.style.display =
+        dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function (e) {
+    const menu = document.getElementById('userMenu');
+    if (!menu.contains(e.target)) {
+        document.getElementById('userDropdown').style.display = 'none';
+    }
+});
 
 </script>
 
