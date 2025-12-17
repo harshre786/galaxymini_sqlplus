@@ -6,6 +6,7 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+          
 
     <style>
         body {
@@ -174,22 +175,22 @@
         <i class="fa fa-angle-down pull-right" id="masterArrow"></i>
     </a>
     <div class="submenu" id="masterMenu">
-         <a href="/masters/license">License</a>
-            <a href="/masters/company">Company</a>
-            <a href="/masters/company-users">Company Users</a>
-            <a href="/masters/customers">Customers</a>
-            <a href="/masters/offer-coupon">Offer Coupon</a>
-            <a href="/masters/payment-master">Payment Master</a>
-            <a href="/masters/other-users">Other Users</a>
-            <a href="/masters/table-group">Table Group</a>
-            <a href="/masters/department">Department</a>
-            <a href="/masters/tablemaster">Table Master</a>
-            <a href="/masters/tax-setting">Tax Setting</a>
-            <a href="/masters/unit">Unit</a>
-            <a href="/masters/kotgroup">Kot Group</a>
-            <a href="/masters/kotmessage">Kot Message</a>
+            <a href="{{ route('masters.license') }}">License</a>
+            <a href="{{ route('masters.company') }}">Company</a>
+            <a href="{{ route('masters.companyuser') }}">Company Users</a>
+            <a href="{{ route('masters.customer') }}">Customers</a>
+            <a href="{{ route('masters.offercoupon') }}">Offer Coupon</a>
+            <a href="{{ route('masters.paymentmaster') }}">Payment Master</a>
+            <a href="{{ route('masters.otherusers') }}">Other Users</a>
+            <a href="{{ route('masters.tablegroup') }}">Table Group</a>
+            <a href="{{ route('masters.department') }}">Department</a>
+            <a href="{{ route('masters.tablemaster') }}">Table Master</a>
+            <a href="{{ route('masters.taxsetting') }}">Tax Setting</a>
+            <a href="{{ route('masters.unit') }}">Unit</a>
+            <a href="{{ route('masters.kotgroup') }}">Kot Group</a>
+            <a href="{{ route('masters.kotmessage') }}">Kot Message</a>
             <a href="{{ route('masters.item') }}">Item</a>
-            <a href="/masters/faq-video">Faq Video</a>
+            <a href="{{ route('masters.faqvideo') }}">Faq Video</a>
     </div>
 
     <!-- Reports -->
@@ -212,7 +213,7 @@
         <a href="/clear-data">
             <i class="fa fa-trash"></i> Clear Data
         </a>
-        
+
     </div>
     
 </div>
