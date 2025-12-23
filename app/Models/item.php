@@ -6,26 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $table = 'item';   // ⚠️ singular table name
+    protected $table = 'item';     // exact table name
 
     protected $primaryKey = 'code';
 
-    public $incrementing = false; // because code is manual
-    protected $keyType = 'int';
-
-    public $timestamps = false; // addDate / updateDate alag hai
+    public $timestamps = false;    // created_at / updated_at nahi hai
 
     protected $fillable = [
-        'code',
         'name',
         'departmentCode',
+        'purchase_price',
         'rate1',
         'rate2',
-        'unit',
+        'cost',
+        'decimalMeasurement',
         'isActive',
         'gSTCODE',
         'openPrice',
         'shortName',
-        'sortNo'
+        'reminderQty',
+        'unit',
+        'sortNo',
+        'noDiscount',
     ];
 }

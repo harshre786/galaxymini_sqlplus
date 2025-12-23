@@ -2,20 +2,52 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Payment;
 
-class PaymentController extends Controller
+class PaymentMasterController extends Controller
 {
-    /**
-     * Display payment list
-     */
     public function index()
     {
-        $payments = Payment::all();
-        return view('payment-index',  compact('payments'));
+        $payments = Payment::orderBy('id', 'desc')->paginate(10);
+        
+        return view('masters.paymentMaster', compact('payments'));
     }
+
+    // 🔹 CREATE PAGE
+    public function create()
+    {
+        return view('payment-create');   // <-- tera blade
+    }
+
+    // 🔹 STORE DATA
+    
+
+    public function store(Request $request)
+{
+    // 🔍 DEBUG (ek baar dekhne ke liye)
+    // dd($request->all());
+
+    $request->validate([
+        'payment_type' => 'required|string|max:255',
+        'status' => 'required',
+    ]);
+
+    Payment::create([
+        'type'         => $request->payment_type, // ✅ FIXED
+        'status'       => $request->status,
+        'created_by'   => auth()->id() ?? 1,
+        'created_date' => date('Y-m-d'), // ✅ since DB me date hai
+    ]);
+
+    return redirect()
+        ->route('masters.paymentMaster')
+        ->with('success', 'Payment type added successfully');
 }
+
+}
+
 
 
 

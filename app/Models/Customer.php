@@ -11,12 +11,12 @@ class Customer extends Model
     public $timestamps = false;       // 👈 no created_at / updated_at
 
     protected $fillable = [
-        'customerCode',
-        'name',
-        'email',
-        'mobile1',
-        'mobile2',
-        'isActive',
-        'company_id'
-    ];
+    'customerCode',
+    'name',
+    'email',
+    'mobile1',
+    'company_id',
+    'isActive'
+];
+
 }

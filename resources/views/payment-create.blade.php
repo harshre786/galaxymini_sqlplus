@@ -7,16 +7,35 @@
     @csrf
 
     <label>Payment Type</label><br>
-    <input type="text" name="payment_type" placeholder="Enter payment type" required>
+    <input type="text" name="type" placeholder="Enter payment type" required>
     <br><br>
 
     <label>Status</label><br>
-    <select name="status">
-        <option value="1">Active</option>
-        <option value="0">In-Active</option>
+    <select name="status" class="form-control">
+        <option value="Active">Active</option>
+        <option value="Inactive">In-Active</option>
     </select>
-    <br><br>
 
-    <button type="submit">Save Payment</button>
+    <br><br>
+    <button class="btn btn-success">Save</button>
 </form>
 @endsection
+
+<!-- <form method="POST" action="{{ route('payment.store') }}">
+    @csrf
+
+    <label>Payment Type</label>
+    <input type="text" name="type" class="form-control" required>
+
+    <label>Status</label>
+    <select name="status" class="form-control">
+        <option value="Active">Active</option>
+        <option value="Inactive">In-Active</option>
+    </select>
+
+    <br>
+    <button class="btn btn-success">Save</button>
+</form> -->
+
+
+
