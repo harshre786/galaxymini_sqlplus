@@ -220,3 +220,24 @@ Route::get(
 
 
 
+
+
+
+
+
+use App\Http\Controllers\ActiveCompanyController;
+use App\Http\Controllers\LicenseExpireController;
+use App\Http\Controllers\LicenseActivatedController;
+use App\Http\Controllers\ActiveUsersController;
+
+Route::get('/masters/company/active-company', [ActiveCompanyController::class, 'index'])
+    ->name('masters.company.active-company');
+
+Route::get('/masters/license-expire', [LicenseExpireController::class, 'index'])
+    ->name('masters.company.license-expire');
+    
+Route::get('/masters/license-activated', [LicenseActivatedController::class, 'index'])
+    ->name('masters.company.license-activated');
+
+Route::get('/masters/active-users', [ActiveUsersController::class, 'index'])
+    ->name('masters.company.active-users'); 
