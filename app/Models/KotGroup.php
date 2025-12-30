@@ -21,3 +21,23 @@ class KotGroup extends Model
         'company_id',
     ];
 }
+
+// <?php
+
+// namespace App\Models;
+
+// use Illuminate\Database\Eloquent\Model;
+
+// class KotGroup extends Model
+// {
+//     protected $table = 'kotgroup'; // table name
+
+//     protected $fillable = [
+//         'sname',
+//         'status',
+//         'created_by'
+//     ];
+
+//     public $timestamps = false;
+// }
+

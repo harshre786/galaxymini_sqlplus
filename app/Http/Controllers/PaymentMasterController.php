@@ -42,7 +42,7 @@ class PaymentMasterController extends Controller
     ]);
 
     return redirect()
-        ->route('masters.paymentMaster')
+        ->route('masters.payment')
         ->with('success', 'Payment type added successfully');
 }
 

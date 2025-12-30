@@ -57,8 +57,25 @@ Route::middleware('auth')->group(function () {
 Route::get('/masters/license', [LicenseController::class, 'index'])->name('masters.license');
 Route::delete('/masters/license/{id}', [LicenseController::class, 'destroy'])->name('license.delete');
 
-Route::get('/masters/company', [CompanyController::class, 'index'])->name('masters.company');
+// Route::get('/masters/company', [CompanyController::class, 'index'])->name('masters.company');
+
+Route::get('/masters/company', [CompanyController::class, 'index'])
+    ->name('masters.company');
+
+Route::post('/masters/company/store', [CompanyController::class, 'store'])
+    ->name('company.store');
+
+
+
 Route::get('/masters/company-user', [CompanyUserController::class, 'index'])->name('masters.companyuser');
+
+Route::get('/masters/company-user/create', [CompanyUserController::class, 'create'])
+     ->name('companyuser.create');
+
+Route::post('/masters/company-user/store', [CompanyUserController::class, 'store'])
+     ->name('companyuser.store');
+
+
 Route::get('/masters/customer', [CustomerController::class, 'index'])->name('masters.customer');
 
 Route::get('/masters/offer-coupon', [OfferCouponController::class, 'index'])->name('masters.offercoupon');
@@ -67,7 +84,18 @@ Route::get('/masters/paymentMaster', [PaymentMasterController::class, 'index'])-
 
 Route::get('/masters/other-users', [OtherUsersController::class, 'index'])->name('masters.otherusers');
 Route::get('/masters/table-group', [TableGroupController::class, 'index'])->name('masters.tablegroup');
-Route::get('/masters/department', [DepartmentController::class, 'index'])->name('masters.department');
+
+// Route::get('/masters/department', [DepartmentController::class, 'index'])->name('masters.department');
+
+Route::get('/masters/department', [DepartmentController::class, 'index'])
+    ->name('masters.department');
+
+Route::post('/masters/department/store', [DepartmentController::class, 'store'])
+    ->name('department.store');
+
+// Route::post('/masters/department/update/{code}', [DepartmentController::class, 'update'])
+//     ->name('department.update');
+
 Route::get('/masters/table-master', [TableMasterController::class, 'index'])->name('masters.tablemaster');
 Route::get('/masters/tax-setting', [TaxSettingController::class, 'index'])->name('masters.taxsetting');
 // Route::get('/masters/unit', [UnitController::class, 'index'])->name('masters.unit');
@@ -78,7 +106,16 @@ Route::get('/masters/unit', [UnitController::class, 'index'])
 Route::post('/masters/unit/store', [UnitController::class, 'store'])
     ->name('unit.store');
 
-Route::get('/masters/kot-group', [KotGroupController::class, 'index'])->name('masters.kotgroup');
+Route::get('/masters/kot-group', 
+    [KotGroupController::class, 'index']
+)->name('masters.kotgroup');
+
+Route::post('/masters/kot-group/store',
+    [KotGroupController::class, 'store']
+)->name('kotgroup.store');
+
+
+
 Route::get('/masters/kot-message', [KotMessageController::class, 'index'])->name('masters.kotmessage');
 
 Route::prefix('masters')->group(function () {

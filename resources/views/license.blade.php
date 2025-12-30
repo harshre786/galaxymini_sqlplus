@@ -67,15 +67,15 @@
         color: red;
     }
 
-    .table-footer {
+    /* .table-footer {
         display: flex;
         justify-content: space-between;
         margin-top: 15px;
         font-size: 14px;
         align-items: center;
-    }
+    } */
 
-    .pagination a {
+    /* .pagination a {
         border: 1px solid #ccc;
         padding: 6px 12px;
         margin-left: 4px;
@@ -88,7 +88,7 @@
         background: #3c8dbc;
         color: #fff;
         border-color: #3c8dbc;
-    }
+    } */
 </style>
 
 <div class="box">
@@ -123,6 +123,7 @@
         </thead>
 
         <tbody>
+
 @forelse($licenses as $license)
 <tr>
     <td>{{ $license->license_id }}</td>
@@ -156,7 +157,7 @@
     {{ $licenses->links() }}
 </div>
 
-    <div class="table-footer">
+    <!-- <div class="table-footer">
         <div>Showing 1 to 10 of 16 entries</div>
 
         <div class="pagination">
@@ -167,7 +168,7 @@
             <a href="#">Next</a>
             <a href="#">Last</a>
         </div>
-    </div>
+    </div> -->
 
 </div>
 

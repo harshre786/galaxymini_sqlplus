@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Company</title>
+    <title>Department</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -14,62 +14,37 @@
         body {
             background: #f2f5f8;
             font-family: "Segoe UI", sans-serif;
-            margin: 0;
         }
-
-        .page-wrapper {
-            padding: 20px;
-        }
-
+        .page-wrapper { padding: 20px; }
         .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
-
-        .page-header h2 {
-            margin: 0;
-            font-weight: 400;
-        }
-
-        .breadcrumb {
-            font-size: 14px;
-            color: #888;
-        }
-
+        .breadcrumb { font-size: 14px; color: #888; }
         .card-box {
             background: #fff;
             padding: 20px;
             border-radius: 4px;
             box-shadow: 0 1px 2px rgba(0,0,0,.1);
         }
-
-        /* Search */
         .search-row {
             display: flex;
             align-items: flex-end;
             gap: 15px;
         }
-
         .field {
             display: flex;
             flex-direction: column;
         }
-
-        label {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
         input {
             height: 36px;
-            width: 220px;
+            width: 200px;
             padding: 6px 10px;
             border: 1px solid #ccc;
             border-radius: 2px;
         }
-
         .btn-clear {
             background: #3c8dbc;
             color: #fff;
@@ -78,68 +53,47 @@
             border-radius: 2px;
             cursor: pointer;
         }
-
         hr {
             margin: 20px 0;
-            border: none;
             border-top: 1px solid #ddd;
         }
-
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
         }
-
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
         }
-
         th {
             background: #f9f9f9;
             font-weight: 600;
-            text-align: left;
         }
-
         tbody tr:nth-child(even) {
             background: #fafafa;
         }
-
         select {
             width: 100%;
             height: 34px;
-            padding: 4px 8px;
-            border: 1px solid #ccc;
-            border-radius: 2px;
-            background: #fff;
         }
-
-        td i {
-            color: #666;
-            cursor: pointer;
-        }
-
-        /* Footer */
         .table-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-top: 15px;
-            font-size: 14px;
         }
     </style>
 </head>
+
 <body>
 
 <div class="page-wrapper">
 
     <!-- Header -->
     <div class="page-header">
-        <h2>Company</h2>
+        <h2>Department</h2>
         <div class="breadcrumb">
-            <i class="fa fa-home"></i> / Company
+            <i class="fa fa-home"></i> / Department
         </div>
     </div>
 
@@ -147,31 +101,34 @@
     <div class="card-box">
 
         <!-- Search -->
-        <form method="GET" action="{{ route('masters.company') }}">
+        <form method="GET" action="{{ route('masters.department') }}">
             <div class="search-row">
 
                 <div class="field">
-                    <label>Company Name</label>
-                    <input type="text"
-                           name="company_name"
-                           value="{{ request('company_name') }}">
+                    <label>Department</label>
+                    <input type="text" name="department"
+                           value="{{ request('department') }}">
+                </div>
+
+                <div class="field">
+                    <label>Company ID</label>
+                    <input type="text" name="company_id"
+                           value="{{ request('company_id') }}">
                 </div>
 
                 <button class="btn-clear">SEARCH</button>
 
-                <a href="{{ route('masters.company') }}"
-                   class="btn-clear"
-                   style="background:#aaa;">
+                <a href="{{ route('masters.department') }}"
+                   class="btn-clear" style="background:#aaa;">
                     CLEAR
                 </a>
 
                 <button type="button"
                         class="btn-clear"
                         data-bs-toggle="modal"
-                        data-bs-target="#addCompanyModal">
-                    ADD COMPANY
+                        data-bs-target="#addDepartmentModal">
+                    ADD DEPARTMENT
                 </button>
-
             </div>
         </form>
 
@@ -181,91 +138,82 @@
         <table>
             <thead>
             <tr>
-                <th>Company Name</th>
+                <th>Department Name</th>
                 <th>Status</th>
+                <th>Company</th>
                 <th>Action</th>
             </tr>
             </thead>
 
             <tbody>
-            @forelse($companies as $company)
+            @foreach($departments as $dept)
                 <tr>
-                    <td>{{ $company->company_name }}</td>
-
+                    <td>{{ strtoupper($dept->description) }}</td>
                     <td>
                         <select disabled>
-                            <option {{ $company->status == 'Active' ? 'selected' : '' }}>
+                            <option {{ $dept->status == 'Active' ? 'selected' : '' }}>
                                 Active
                             </option>
-                            <option {{ $company->status == 'Inactive' ? 'selected' : '' }}>
+                            <option {{ $dept->status == 'Inactive' ? 'selected' : '' }}>
                                 In-Active
                             </option>
                         </select>
                     </td>
-
+                    <td>{{ $dept->company_id }}</td>
                     <td>
                         <i class="fa fa-pen"
-                           title="Edit {{ $company->company_name }}"></i>
+                           title="Edit {{ $dept->description }}"></i>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="3">No companies found</td>
-                </tr>
-            @endforelse
+            @endforeach
             </tbody>
         </table>
 
         <!-- Footer -->
         <div class="table-footer">
             <div>
-                Showing {{ $companies->firstItem() ?? 0 }}
-                to {{ $companies->lastItem() ?? 0 }}
-                of {{ $companies->total() }} entries
+                Showing {{ $departments->firstItem() ?? 0 }}
+                to {{ $departments->lastItem() ?? 0 }}
+                of {{ $departments->total() }} entries
             </div>
             <div>
-                {{ $companies->links() }}
+                {{ $departments->links() }}
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- Add Company Modal -->
-<div class="modal fade" id="addCompanyModal" tabindex="-1">
+<!-- ADD MODAL -->
+<div class="modal fade" id="addDepartmentModal" tabindex="-1">
     <div class="modal-dialog modal-sm">
-        <form method="POST" action="{{ route('company.store') }}">
+        <form method="POST" action="{{ route('department.store') }}">
             @csrf
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Company</h5>
+                    <h5>Add Department</h5>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"></button>
                 </div>
-
                 <div class="modal-body">
-                    <label class="form-label">Company Name</label>
+                    <label>Department Name</label>
                     <input type="text"
-                           name="company_name"
+                           name="description"
                            class="form-control"
                            required>
                 </div>
-
                 <div class="modal-footer">
                     <button class="btn btn-secondary"
                             data-bs-dismiss="modal">Cancel</button>
                     <button class="btn btn-success">Save</button>
                 </div>
-
             </div>
         </form>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 @endsection
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
