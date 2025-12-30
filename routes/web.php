@@ -193,7 +193,8 @@ Route::get('/reportd/datewise', [DatewiseController::class, 'index'])
 
 
 Route::get('/reports/cancelled-billwise', [CancelledBillwiseController::class, 'index'])
-    ->name('reports.cancelled-billwise'); 
+    ->name('reports.cancelled-billwise');
+    
 
 
 Route::get('/reports/nonchargeable-bill', [NonChargeableBillController::class, 'index'])
