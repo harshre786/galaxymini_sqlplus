@@ -100,6 +100,17 @@
             justify-content: center;
             border-radius: 4px 0 0 4px;
         }
+        .stat-card .stat-icon{
+            cursor: pointer;
+        }
+
+        .stat-card .stat-content{
+            cursor: pointer;
+        }
+
+        .stats .stat-card:hover{
+            box-shadow: 0 8px 10px rgba(0,0,0,0.08);
+        }
 
         .stat-icon i {
             color: #fff;
@@ -166,15 +177,17 @@
 
     <!-- Stats -->
     <div class="stats">
-        <div class="stat-card">
+        <!-- <a href="{{ route('masters.company.active-company') }}" > -->
+        <div class="stat-card" onclick="window.location='{{ route('masters.company.active-company') }}'">
             <div class="stat-icon"><i class="fa fa-building"></i></div>
             <div class="stat-content">
                 <small>NO OF ACTIVE COMPANIES</small>
                 <h3>5</h3>
             </div>
         </div>
+        <!-- </a> -->
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location='{{ route('masters.license') }}'">
             <div class="stat-icon"><i class="fa fa-id-card"></i></div>
             <div class="stat-content">
                 <small>NO OF ACTIVE LICENSE</small>
@@ -182,7 +195,7 @@
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location='{{ route('masters.company.license-expire') }}'">
             <div class="stat-icon"><i class="fa fa-calendar-times"></i></div>
             <div class="stat-content">
                 <small>LICENSE EXPIRING IN 30 DAYS</small>
@@ -190,7 +203,7 @@
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location='{{ route('masters.company.license-activated') }}'">
             <div class="stat-icon"><i class="fa fa-check-circle"></i></div>
             <div class="stat-content">
                 <small>LICENSE ACTIVATED IN LAST 30 DAYS</small>
@@ -198,7 +211,7 @@
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location='{{ route('masters.companyuser') }}'">
             <div class="stat-icon"><i class="fa fa-users"></i></div>
             <div class="stat-content">
                 <small>NO OF COMPANY USERS</small>
@@ -206,7 +219,7 @@
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location='{{ route('masters.company.active-users') }}'">
             <div class="stat-icon"><i class="fa fa-user-check"></i></div>
             <div class="stat-content">
                 <small>NO OF ONLINE USERS</small>
