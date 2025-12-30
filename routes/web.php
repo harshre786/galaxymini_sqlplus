@@ -180,8 +180,8 @@ use App\Http\Controllers\TotalSummaryController;
 // Reports Routes
 
 
-Route::get('/reports/billwise', [BillwiseController::class, 'index'])
-    ->name('reports.billwise'); 
+Route::get('/reports/billwise',[BillwiseController::class, 'index']
+)->name('reports.billwise'); 
 
 
 Route::get('/reports/itemwise', [ItemwiseController::class, 'index'])
