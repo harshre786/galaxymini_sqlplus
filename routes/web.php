@@ -169,11 +169,11 @@ Route::get('/masters/paymentMaster/{id}/edit', [PaymentMasterController::class, 
 
 use App\Http\Controllers\FutureOrdersController;
 use App\Http\Controllers\BillwiseController;
-use App\Http\Controllers\ItemwiseController;
+use App\Http\Controllers\ItemwiseReportController;
 use App\Http\Controllers\DatewiseController;
 use App\Http\Controllers\CancelledBillwiseController;
 use App\Http\Controllers\NonChargeableBillController;
-use App\Http\Controllers\ReportDepartmentController;
+use App\Http\Controllers\DepartmentReportController;
 use App\Http\Controllers\CustomerwiseController;
 use App\Http\Controllers\TotalSummaryController;
 
@@ -184,15 +184,15 @@ Route::get('/reports/billwise',[BillwiseController::class, 'index']
 )->name('reports.billwise'); 
 
 
-Route::get('/reports/itemwise', [ItemwiseController::class, 'index'])
+Route::get('/reports/itemwise', [ItemwiseReportController::class, 'itemwiseReport'])
     ->name('reports.itemwise'); 
 
 
-Route::get('/reportd/datewise', [DatewiseController::class, 'index'])
+Route::get('/reports/datewise', [DatewiseController::class, 'datewise'])
     ->name('reports.datewise'); 
 
 
-Route::get('/reports/cancelled-billwise', [CancelledBillwiseController::class, 'index'])
+Route::get('/reports/cancelled-billwise', [CancelledBillwiseController::class, 'cancelledBillReport'])
     ->name('reports.cancelled-billwise');
     
 
@@ -201,7 +201,7 @@ Route::get('/reports/nonchargeable-bill', [NonChargeableBillController::class, '
     ->name('reports.nonchargeable-bill'); 
 
 
-Route::get('/reports/department', [ReportDepartmentController::class, 'index'])
+Route::get('/reports/department', [DepartmentReportController::class, 'index'])
     ->name('reports.department'); 
 
 

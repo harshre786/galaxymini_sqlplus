@@ -207,9 +207,9 @@
             <a href="/reports/itemwise">Reports Itemwise</a>
             <a href="/reports/datewise">Reports Datewise</a>
             <a href="/reports/cancelled-billwise">Reports Cancelled Billwise</a>
-            <a href="/reports/non-chargeable">Reports Non Chargeable Bill</a>
+            <a href="/reports/nonchargeable-bill">Reports Non Chargeable Bill</a>
             <a href="/reports/department">Reports Department</a>
-            <a href="/reports/customer-wise">Reports Customer Wise</a>
+            <a href="/reports/customerwise">Reports Customer Wise</a>
             <a href="/reports/total-summary">Reports Total Summary</a>
 
     </div>

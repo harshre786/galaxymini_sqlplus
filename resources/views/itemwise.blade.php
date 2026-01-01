@@ -8,6 +8,12 @@
     <meta charset="UTF-8">
     <title>Future Orders</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
     <style>
         body {
             margin: 0;
@@ -169,76 +175,156 @@
     <div class="card">
 
         <!-- Filters -->
-        <div class="filter-row">
-            
-            <div class="filter-group">
-                <label>Date</label>
-                <input type="text" value="19/12/2025 - 19/12/2025">
-            </div>
+        <!-- Filters -->
+<form method="GET" action="{{ route('reports.itemwise') }}">
+    <div class="filter-row">
 
-            <div class="filter-group">
-                <label>Item</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
+        <div class="filter-group">
+            <label>Date</label>
+            <input type="text"
+       name="date"
+       id="dateRange"
+       placeholder="dd/mm/yyyy - dd/mm/yyyy"
+       value="{{ request('date') }}">
 
-            <div class="filter-group">
-                <label>Username</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>Company</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
-
-            <button class="btn btn-primary">CLEAR SEARCH</button>
-            <button class="btn btn-secondary">EXPORT</button>
         </div>
+
+        <div class="filter-group">
+            <label>Item</label>
+            <select name="item">
+                <option value="">Select</option>
+                @foreach($items as $item)
+                    <option value="{{ $item }}"
+                        {{ request('item') == $item ? 'selected' : '' }}>
+                        {{ $item }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Username</label>
+            <select name="username">
+                <option value="">Select</option>
+                @foreach($usernames as $username)
+                    <option value="{{ $username }}"
+                        {{ request('username') == $username ? 'selected' : '' }}>
+                        {{ $username }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            SEARCH
+        </button>
+
+        <a href="{{ route('reports.itemwise') }}" class="btn btn-primary">
+    CLEAR SEARCH
+</a>
+
+
+        <button type="button" class="btn btn-secondary">
+            EXPORT
+        </button>
+
+    </div>
+</form>
+
+
+
 
         <div class="divider"></div>
 
         <!-- Table -->
         <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Items Sold</th>
-                    <th>Name</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                    <th>CGST</th>
-                    <th>SGST</th>
-                    <th>Total Amt</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="11" class="no-data">No data available in table</td>
-                </tr>
-            </tbody>
-        </table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Items Sold</th>
+            <th>Name</th>
+            <th>Rate</th>
+            <th>Amount</th>
+            <th>CGST</th>
+            <th>SGST</th>
+            <th>Total Amt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($reports as $row)
+            <tr>
+                <td>{{ $row->username }}</td>
+                <td>{{ $row->qty }}</td>
+                <td>{{ $row->item_name }}</td>
+                <td>{{ $row->rate }}</td>
+                <td>{{ $row->amount }}</td>
+                <td>{{ $row->cgst }}</td>
+                <td>{{ $row->sgst }}</td>
+                <td>{{ $row->total_amount }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="8" class="no-data">
+                    No data available in table
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
 
         <!-- Footer -->
         <div class="table-footer">
-            <div>Showing 0 to 0 of 0 entries</div>
-            <div class="pagination">
-                <button>First</button>
-                <button>Previous</button>
-                <button class="active">1</button>
-                <button>Next</button>
-                <button>Last</button>
-            </div>
-        </div>
+    <div>
+        Showing {{ $reports->firstItem() ?? 0 }}
+        to {{ $reports->lastItem() ?? 0 }}
+        of {{ $reports->total() }} entries
+    </div>
+
+    <div class="pagination">
+        {{-- First --}}
+        <a href="{{ $reports->url(1) }}">
+            <button>First</button>
+        </a>
+
+        {{-- Previous --}}
+        <a href="{{ $reports->previousPageUrl() }}">
+            <button>Previous</button>
+        </a>
+
+        {{-- Page Numbers --}}
+        @for ($i = 1; $i <= $reports->lastPage(); $i++)
+            <a href="{{ $reports->url($i) }}">
+                <button class="{{ $reports->currentPage() == $i ? 'active' : '' }}">
+                    {{ $i }}
+                </button>
+            </a>
+        @endfor
+
+        {{-- Next --}}
+        <a href="{{ $reports->nextPageUrl() }}">
+            <button>Next</button>
+        </a>
+
+        {{-- Last --}}
+        <a href="{{ $reports->url($reports->lastPage()) }}">
+            <button>Last</button>
+        </a>
+    </div>
+</div>
+
 
     </div>
 
 </body>
+<script>
+flatpickr("#dateRange", {
+    mode: "range",
+    dateFormat: "d/m/Y"
+});
+</script>
+
+
 </html>
 
 
