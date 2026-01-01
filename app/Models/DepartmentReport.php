@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DepartmentReport extends Model
+{
+    use HasFactory;
+
+    protected $table = 'department_reports';
+
+    protected $fillable = [
+        'username',
+        'department',
+        'qty',
+        'cgst',
+        'sgst',
+        'sub_amount',
+        'total_amount',
+        'order_date',
+    ];
+}
