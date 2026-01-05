@@ -169,30 +169,29 @@
     <div class="card">
 
         <!-- Filters -->
+        <form method="GET" action="{{ route('reports.nonchargeable-bill') }}">
         <div class="filter-row">
-            
             <div class="filter-group">
                 <label>Date</label>
-                <input type="text" value="19/12/2025 - 19/12/2025">
+                <input type="text" name="date" id="date_range" value="{{ request('date') }}">
             </div>
 
             <div class="filter-group">
                 <label>User</label>
-                <select>
+                <select name="username">
                     <option>Select</option>
+                    @foreach($usernames as $user)
+                        <option value="{{ $user->username }}" {{ request('username') == $user->username ? 'selected' : '' }}>
+                            {{ $user->username }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
-            <div class="filter-group">
-                <label>Company</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
-
-            <button class="btn btn-primary">CLEAR SEARCH</button>
-            <button class="btn btn-secondary">EXPORT</button>
+            <button type="submit" class="btn btn-primary">SEARCH</button>
+            <a href="{{ route('reports.nonchargeable-bill') }}" class="btn btn-primary">CLEAR SEARCH</a>
         </div>
+    </form>
 
         <div class="divider"></div>
 
@@ -213,22 +212,64 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="11" class="no-data">No data available in table</td>
-                </tr>
-            </tbody>
+            @forelse($bills as $bill)
+            <tr>
+                <td>{{ $bill->username }}</td>
+                <td>{{ $bill->bill_no }}</td>
+                <td>{{ $bill->total_item }}</td>
+                <td>{{ $bill->amount }}</td>
+                <td>{{ $bill->cgst }}</td>
+                <td>{{ $bill->sgst }}</td>
+                <td>{{ $bill->discount }}</td>
+                <td>{{ $bill->total_amount }}</td>
+                <td>{{ date('d/m/Y', strtotime($bill->order_date)) }}</td>
+                <td>{{ $bill->reason }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="10" class="no-data">No data available in table</td>
+            </tr>
+            @endforelse
+        </tbody>
         </table>
 
         <!-- Footer -->
         <div class="table-footer">
-            <div>Showing 0 to 0 of 0 entries</div>
+            <div>
+        Showing {{ $reports->firstItem() ?? 0 }}
+        to {{ $reports->lastItem() ?? 0 }}
+        of {{ $reports->total() }} entries
+    </div>
             <div class="pagination">
-                <button>First</button>
-                <button>Previous</button>
-                <button class="active">1</button>
-                <button>Next</button>
-                <button>Last</button>
-            </div>
+        {{-- First --}}
+        <a href="{{ $reports->url(1) }}">
+            <button>First</button>
+        </a>
+
+        {{-- Previous --}}
+        <a href="{{ $reports->previousPageUrl() }}">
+            <button>Previous</button>
+        </a>
+
+        {{-- Page Numbers --}}
+        @for ($i = 1; $i <= $reports->lastPage(); $i++)
+            <a href="{{ $reports->url($i) }}">
+                <button class="{{ $reports->currentPage() == $i ? 'active' : '' }}">
+                    {{ $i }}
+                </button>
+            </a>
+        @endfor
+
+        {{-- Next --}}
+        <a href="{{ $reports->nextPageUrl() }}">
+            <button>Next</button>
+        </a>
+
+        {{-- Last --}}
+        <a href="{{ $reports->url($reports->lastPage()) }}">
+            <button>Last</button>
+        </a>
+    </div>
         </div>
 
     </div>

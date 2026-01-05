@@ -159,16 +159,17 @@
 
     <!-- Page Header -->
     <div class="page-header">
-        <div>Reports Customer Wise</div>
+        <div>Reports Summary</div>
         <div class="breadcrumb">
-            <i class="fa fa-home"></i> / Reports Customer Wise
+            <i class="fa fa-home"></i> / Reports Summary
         </div>
     </div>
 
     <!-- Card -->
     <div class="card">
 
-        <form method="GET" action="{{ route('reports.customerwise') }}">
+        <!-- Filters -->
+        <form method="GET" action="{{ route('reports.total-summary') }}">
         <div class="filter-row">
             <div class="filter-group">
                 <label>Date</label>
@@ -176,31 +177,19 @@
             </div>
 
             <div class="filter-group">
-                <label>Customer</label>
-                <select name="customer">
+                <label>Username</label>
+                <select name="user">
                     <option>Select</option>
-                    @foreach($customers as $cust)
-                        <option value="{{ $cust->customer }}" {{ request('customer') == $cust->customer ? 'selected' : '' }}>
-                            {{ $cust->customer }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>Payment Mode</label>
-                <select name="payment_mode">
-                    <option>Select</option>
-                    @foreach($payment_modes as $mode)
-                        <option value="{{ $mode->payment_mode }}" {{ request('payment_mode') == $mode->payment_mode ? 'selected' : '' }}>
-                            {{ $mode->payment_mode }}
+                    @foreach($users as $user)
+                        <option value="{{ $user->user }}" {{ request('user') == $user->user ? 'selected' : '' }}>
+                            {{ $user->user }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
             <button type="submit" class="btn btn-primary">SEARCH</button>
-            <a href="{{ route('reports.customerwise') }}" class="btn btn-primary">CLEAR SEARCH</a>
+            <a href="{{ route('reports.total-summary') }}" class="btn btn-primary">CLEAR SEARCH</a>
         </div>
     </form>
 
@@ -210,35 +199,25 @@
         <table>
             <thead>
                 <tr>
-                    <th>Customer</th>
-                    <th>Bill No</th>
-                    <th>Total Item</th>
-                    <th>Amount</th>
-                    <th>CGST</th>
-                    <th>SGST</th>
-                    <th>Discount</th>
+                    <th>User</th>
+                    <th>Total Bills</th>
                     <th>Total Amount</th>
-                    <th>Order Date</th>
-                    <th>Payment Mode</th>
+                    <th>Cash</th>
+                    <th>UPI</th>
                 </tr>
             </thead>
             <tbody>
             @forelse($reports as $report)
             <tr>
-                <td>{{ $report->customer }}</td>
-                <td>{{ $report->bill_no }}</td>
-                <td>{{ $report->total_item }}</td>
-                <td>{{ $report->amount }}</td>
-                <td>{{ $report->cgst }}</td>
-                <td>{{ $report->sgst }}</td>
-                <td>{{ $report->discount }}</td>
+                <td>{{ $report->user }}</td>
+                <td>{{ $report->total_bills }}</td>
                 <td>{{ $report->total_amount }}</td>
-                <td>{{ $report->order_date }}</td>
-                <td>{{ $report->payment_mode }}</td>
+                <td>{{ $report->cash }}</td>
+                <td>{{ $report->upi }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="10" class="no-data">No data available in table</td>
+                <td colspan="5" class="no-data">No data available in table</td>
             </tr>
             @endforelse
         </tbody>

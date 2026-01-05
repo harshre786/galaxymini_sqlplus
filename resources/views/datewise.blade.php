@@ -169,30 +169,44 @@
     <div class="card">
 
         <!-- Filters -->
-        <div class="filter-row">
-            
-            <div class="filter-group">
-                <label>Date</label>
-                <input type="text" value="19/12/2025 - 19/12/2025">
-            </div>
+        <form method="GET" action="{{ route('reports.datewise') }}">
 
-            <div class="filter-group">
-                <label>Username</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
+<div class="filter-row">
 
-            <div class="filter-group">
-                <label>Company</label>
-                <select>
-                    <option>Select</option>
-                </select>
-            </div>
+    <div class="filter-group">
+        <label>Date</label>
+        <input type="text" name="date" id="dateRange" value="{{ request('date') }}">
+    </div>
 
-            <button class="btn btn-primary">CLEAR SEARCH</button>
-            <button class="btn btn-secondary">EXPORT</button>
-        </div>
+    <div class="filter-group">
+        <label>Username</label>
+        <select name="username">
+            <option value="">Select</option>
+            @foreach($usernames as $username)
+                <option value="{{ $username }}"
+                    {{ request('username') == $username ? 'selected' : '' }}>
+                    {{ $username }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+            SEARCH
+        </button>
+
+        <a href="{{ route('reports.datewise') }}" class="btn btn-primary">
+    CLEAR SEARCH
+</a>
+
+
+        <button type="button" class="btn btn-secondary">
+            EXPORT
+        </button>
+
+</div>
+</form>
+
 
         <div class="divider"></div>
 
@@ -211,25 +225,76 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="11" class="no-data">No data available in table</td>
-                </tr>
-            </tbody>
+@if($reports->count())
+@foreach($reports as $row)
+<tr>
+    <td>{{ $row->username }}</td>
+    <td>{{ $row->total_bill }}</td>
+    <td>{{ $row->amount }}</td>
+    <td>{{ $row->cgst }}</td>
+    <td>{{ $row->sgst }}</td>
+    <td>{{ $row->discount }}</td>
+    <td>{{ $row->total_amount }}</td>
+    <td>{{ \Carbon\Carbon::parse($row->read_date)->format('d/m/Y') }}</td>
+</tr>
+@endforeach
+@else
+<tr>
+    <td colspan="8" class="no-data">No data available in table</td>
+</tr>
+@endif
+</tbody>
+
         </table>
 
         <!-- Footer -->
         <div class="table-footer">
-            <div>Showing 0 to 0 of 0 entries</div>
+            <div>
+        Showing {{ $reports->firstItem() ?? 0 }}
+        to {{ $reports->lastItem() ?? 0 }}
+        of {{ $reports->total() }} entries
+    </div>
             <div class="pagination">
-                <button>First</button>
-                <button>Previous</button>
-                <button class="active">1</button>
-                <button>Next</button>
-                <button>Last</button>
-            </div>
+        {{-- First --}}
+        <a href="{{ $reports->url(1) }}">
+            <button>First</button>
+        </a>
+
+        {{-- Previous --}}
+        <a href="{{ $reports->previousPageUrl() }}">
+            <button>Previous</button>
+        </a>
+
+        {{-- Page Numbers --}}
+        @for ($i = 1; $i <= $reports->lastPage(); $i++)
+            <a href="{{ $reports->url($i) }}">
+                <button class="{{ $reports->currentPage() == $i ? 'active' : '' }}">
+                    {{ $i }}
+                </button>
+            </a>
+        @endfor
+
+        {{-- Next --}}
+        <a href="{{ $reports->nextPageUrl() }}">
+            <button>Next</button>
+        </a>
+
+        {{-- Last --}}
+        <a href="{{ $reports->url($reports->lastPage()) }}">
+            <button>Last</button>
+        </a>
+    </div>
+
         </div>
 
     </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+flatpickr("#dateRange", {
+    mode: "range",
+    dateFormat: "d/m/Y"
+});
+</script>
 
 </body>
 </html>
